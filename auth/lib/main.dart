@@ -1,4 +1,5 @@
-import 'package:auth/services/signIn.dart';
+import 'package:auth/screens/welcome.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: Welcome(),
     );
   }
 }

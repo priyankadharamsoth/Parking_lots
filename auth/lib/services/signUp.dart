@@ -1,21 +1,22 @@
-import 'package:auth/screens/home.dart';
+//import 'package:auth/screens/home.dart';
+import 'package:auth/services/signIn.dart';
+//import 'package:firebase/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
-class LoginPage extends StatefulWidget {
+class SignUpPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  String _email, _password;
+class _SignUpState extends State<SignUpPage> {
+  String _email, _password,_vehicleNum,_role;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('signIn'),
+          title: Text('signUp'),
         ),
         body: Form(
             key: _formkey,
@@ -43,9 +44,28 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   obscureText: true,
                 ),
+                TextFormField(
+                  onSaved: (input) => _vehicleNum = input,
+                  validator: (input) {
+                    if (input.isEmpty) 
+                    return 'please type your vehicle num';
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'vehicle num',
+                  ),
+                ),TextFormField(
+                  onSaved: (input) => _role = input,
+                  validator: (input) {
+                    if (input.isEmpty) 
+                    return 'please type either user or owner';
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'user/owner',
+                  ),
+                ),
                 RaisedButton(
-                  onPressed: signIn,
-                  child:Text('SignIn'),
+                  onPressed:SignUp,
+                  child:Text('SignUp'),
                   color:Colors.blue,
                   
                   )
@@ -54,15 +74,15 @@ class _LoginPageState extends State<LoginPage> {
           )
         );
   }
-  Future <void> signIn() async {
+  Future <void> SignUp() async {
     final formState =_formkey.currentState;
     if (formState.validate()){
      //login to firebase
      formState.save();
      try{
-     FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
-     //navigate to home
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
+     FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)).user;
+     user.sendEmailVerification();
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
       
       }
       catch(e){
@@ -71,5 +91,4 @@ class _LoginPageState extends State<LoginPage> {
       }
      }
     }
-  }
-
+}

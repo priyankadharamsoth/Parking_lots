@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "855897980469",
-    "firebase_url": "https://parkingslot-81841.firebaseio.com",
-    "project_id": "parkingslot-81841",
-    "storage_bucket": "parkingslot-81841.appspot.com"
+    "project_number": "682843580732",
+    "firebase_url": "https://parkingapp-573c5.firebaseio.com",
+    "project_id": "parkingapp-573c5",
+    "storage_bucket": "parkingapp-573c5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:855897980469:android:0caeb7b847b2932221fb7c",
+        "mobilesdk_app_id": "1:682843580732:android:824cfc21440adc951fd639",
         "android_client_info": {
-          "package_name": "com.example.signup"
+          "package_name": "com.example.auth"
         }
       },
       "oauth_client": [
         {
-          "client_id": "855897980469-s3te7rcqedgj88e8cv5ki878hv22m95o.apps.googleusercontent.com",
+          "client_id": "682843580732-sq913evvo5s016pl054gbb104onjvi3b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCvNGSUOBVnpxo4JeKRMcpfatP6ZF7ypp0"
+          "current_key": "AIzaSyCf8DHbza-BjOYmlnK6cTaJAUCrSIt-ZPw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "855897980469-s3te7rcqedgj88e8cv5ki878hv22m95o.apps.googleusercontent.com",
+              "client_id": "682843580732-sq913evvo5s016pl054gbb104onjvi3b.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
