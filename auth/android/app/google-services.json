@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "855897980469",
+    "firebase_url": "https://parkingslot-81841.firebaseio.com",
+    "project_id": "parkingslot-81841",
+    "storage_bucket": "parkingslot-81841.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855897980469:android:0caeb7b847b2932221fb7c",
+        "android_client_info": {
+          "package_name": "com.example.signup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855897980469-s3te7rcqedgj88e8cv5ki878hv22m95o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvNGSUOBVnpxo4JeKRMcpfatP6ZF7ypp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855897980469-s3te7rcqedgj88e8cv5ki878hv22m95o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
