@@ -60,8 +60,10 @@ class _LoginPageState extends State<LoginPage> {
      //login to firebase
      formState.save();
      try{
+       
      FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
      //navigate to home
+     
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
       
       }

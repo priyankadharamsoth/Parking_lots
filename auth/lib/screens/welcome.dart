@@ -19,22 +19,22 @@ class _WelcomeState extends State<Welcome> {
         children: <Widget>[
           RaisedButton(
             color:Colors.blue,
-            onPressed:NavigateToSignIn,
+            onPressed:navigateToSignIn,
             child:Text('SignIn'),
           ),
           RaisedButton(
             color:Colors.blue,
-            onPressed:NavigateToSignUp,
+            onPressed:navigateToSignUp,
             child:Text('SignUp'),
           )
         ],
       ) 
     );
   }
-  void NavigateToSignIn(){
+  void navigateToSignIn(){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage(),fullscreenDialog: true));
   }
-  void NavigateToSignUp(){
+  void navigateToSignUp(){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
   }
 }
