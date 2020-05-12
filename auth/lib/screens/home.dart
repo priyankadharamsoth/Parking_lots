@@ -1,8 +1,31 @@
-//import 'package:auth/services/geolocator_service.dart';
+import 'package:auth/services/geolocator_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  Position position;
+
+  void getCurrentLocation() async {
+    // GeoLocatorService geolocator = GeoLocatorService();
+    // position = await geolocator.getLocation();
+
+    position = await GeoLocatorService.getLocation();
+    setState(() {});
+    return;
+  }
+
+  @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,9 +35,9 @@ class Home extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height / 3,
             width: MediaQuery.of(context).size.width,
-            child: GoogleMap(
+            child: position == null ? Center(child: CircularProgressIndicator()) : GoogleMap(
               initialCameraPosition: CameraPosition(
-                target: LatLng(16.9947, 79.9750),
+                target: LatLng(position.latitude, position.longitude),
                 zoom: 16.0,
               ),
               zoomGesturesEnabled: true,
