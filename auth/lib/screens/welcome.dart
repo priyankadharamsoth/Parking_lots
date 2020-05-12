@@ -10,31 +10,39 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
-      appBar: AppBar(title:Text('Welcome'),centerTitle: true,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Welcome'),
+        centerTitle: true,
       ),
-      body:Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           RaisedButton(
-            color:Colors.blue,
-            onPressed:navigateToSignIn,
-            child:Text('SignIn'),
+            color: Colors.blue,
+            onPressed: navigateToSignIn,
+            child: Text('SignIn'),
           ),
           RaisedButton(
-            color:Colors.blue,
-            onPressed:navigateToSignUp,
-            child:Text('SignUp'),
-          )
+            color: Colors.blue,
+            onPressed: navigateToSignUp,
+            child: Text('SignUp'),
+          ),
         ],
-      ) 
+      ),
     );
   }
-  void navigateToSignIn(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage(),fullscreenDialog: true));
+
+  void navigateToSignIn() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginPage(), fullscreenDialog: true));
   }
-  void navigateToSignUp(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+
+  void navigateToSignUp() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SignUpPage()));
   }
 }
