@@ -10,7 +10,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpPage> {
-  String _email, _password,_vehicleNum,_role;
+  String _email, _password, _vehicleNum, _role;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,7 @@ class _SignUpState extends State<SignUpPage> {
                 TextFormField(
                   onSaved: (input) => _email = input,
                   validator: (input) {
-                    if (input.isEmpty) 
-                    return 'please type valid email';
+                    if (input.isEmpty) return 'please type valid email';
                   },
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -36,8 +35,7 @@ class _SignUpState extends State<SignUpPage> {
                 TextFormField(
                   onSaved: (input) => _password = input,
                   validator: (input) {
-                    if (input.length<6) 
-                    return 'enter atlast 6 letters';
+                    if (input.length < 6) return 'enter atlast 6 letters';
                   },
                   decoration: InputDecoration(
                     labelText: 'password',
@@ -47,48 +45,47 @@ class _SignUpState extends State<SignUpPage> {
                 TextFormField(
                   onSaved: (input) => _vehicleNum = input,
                   validator: (input) {
-                    if (input.isEmpty) 
-                    return 'please type your vehicle num';
+                    if (input.isEmpty) return 'please type your vehicle num';
                   },
                   decoration: InputDecoration(
                     labelText: 'vehicle num',
                   ),
-                ),TextFormField(
+                ),
+                TextFormField(
                   onSaved: (input) => _role = input,
                   validator: (input) {
-                    if (input.isEmpty) 
-                    return 'please type either user or owner';
+                    if (input.isEmpty)
+                      return 'please type either user or owner';
                   },
                   decoration: InputDecoration(
                     labelText: 'user/owner',
                   ),
                 ),
                 RaisedButton(
-                  onPressed:SignUp,
-                  child:Text('SignUp'),
-                  color:Colors.blue,
-                  
-                  )
+                  onPressed: SignUp,
+                  child: Text('SignUp'),
+                  color: Colors.blue,
+                )
               ],
-            )
-          )
-        );
+            )));
   }
-  Future <void> SignUp() async {
-    final formState =_formkey.currentState;
-    if (formState.validate()){
-     //login to firebase
-     formState.save();
-     try{
-     FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)).user;
-     user.sendEmailVerification();
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
-      
-      }
-      catch(e){
-      print(e.message);
 
+  Future<void> SignUp() async {
+    final formState = _formkey.currentState;
+    if (formState.validate()) {
+      //login to firebase
+      formState.save();
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _email, password: _password))
+            .user;
+        user.sendEmailVerification();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      } catch (e) {
+        print(e.message);
       }
-     }
     }
+  }
 }
