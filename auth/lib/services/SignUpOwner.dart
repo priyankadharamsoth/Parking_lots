@@ -1,6 +1,6 @@
 //import 'package:auth/screens/home.dart';
 import 'package:auth/services/database.dart';
-import 'package:auth/services/signIn.dart';
+//import 'package:auth/services/signIn.dart';
 import 'package:auth/services/signInOwner.dart';
 import 'package:auth/shared/constants.dart';
 //import 'package:firebase/firebase.dart';
@@ -118,9 +118,16 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
 
   Future<void> signUp() async {
     final formState = _formkey.currentState;
+    setState(() {
+      _isLoading=true;
+    });
+    
     if (formState.validate()) {
       //login to firebase
       formState.save();
+      setState(() {
+        _isLoading =false;
+      });
       try {
         FirebaseUser user =(await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _email, password: _password)).user;
