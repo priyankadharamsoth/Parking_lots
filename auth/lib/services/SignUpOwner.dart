@@ -14,6 +14,7 @@ class SignUpOwnerPage extends StatefulWidget {
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
   String _email, _password, _latitude, _longitude, _apartmentname, _location;
+  bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
         backgroundColor: Colors.orange,
         title: Text('signUp'),
       ),
-      body: Container(
+      body: _isLoading == true ? Container(child: Center(child: CircularProgressIndicator(),),) : Container(
         width: double.infinity,
         child: Padding(
             padding: EdgeInsets.only(
