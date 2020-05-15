@@ -124,10 +124,6 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
     
     if (formState.validate()) {
       //login to firebase
-      formState.save();
-      setState(() {
-        _isLoading =false;
-      });
       try {
         FirebaseUser user =(await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _email, password: _password)).user;
@@ -140,5 +136,9 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
         
       }
     }
+    formState.save();
+      setState(() {
+        _isLoading =false;
+      });
   }
 }
