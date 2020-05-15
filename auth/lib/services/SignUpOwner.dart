@@ -56,9 +56,6 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                     obscureText: true,
                   ),
                   SizedBox(height: 20.0),
-                  SizedBox(height: 20.0),
-
-                  
                   TextFormField(
                   onSaved: (input) => _apartmentname = input,
                   validator: (input) {
@@ -87,7 +84,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                       textInputDecoration.copyWith(labelText: 'longitude'),
                 ),
                 RaisedButton(
-                    onPressed: SignUp,
+                    onPressed: signUp,
                     child: Text('SignUp'),
                     color: Colors.orange,
                   ),
@@ -115,10 +112,10 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
 
   navigateToLoginPage() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => Loginpage()));
   }
 
-  Future<void> SignUp() async {
+  Future<void> signUp() async {
     final formState = _formkey.currentState;
     if (formState.validate()) {
       //login to firebase
@@ -127,9 +124,9 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
         FirebaseUser user =(await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _email, password: _password)).user;
             //create a new document for the user with the uid
-            DataBaseService(uid:user.uid).updateOwnerData('new Apartment',0 , 0);
+        await DataBaseService(uid:user.uid).updateOwnerData(_apartmentname, _latitude, _longitude);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+            context, MaterialPageRoute(builder: (context) => Loginpage()));
       } catch (e) {
         print(e.message);
         
