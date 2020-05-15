@@ -35,13 +35,16 @@ class _HomeState extends State<Home> {
           Container(
             height: MediaQuery.of(context).size.height / 3,
             width: MediaQuery.of(context).size.width,
-            child: position == null ? Center(child: CircularProgressIndicator()) : GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target: LatLng(position.latitude, position.longitude),
-                zoom: 16.0,
-              ),
-              zoomGesturesEnabled: true,
-            ),
+            child: position == null
+                ? Center(child: CircularProgressIndicator())
+                : GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(position.latitude, position.longitude),
+                     
+                      zoom: 16.0,
+                    ),
+                    zoomGesturesEnabled: true,
+                  ),
           ),
         ],
       ),

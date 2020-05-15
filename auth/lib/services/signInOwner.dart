@@ -1,15 +1,16 @@
-import 'package:auth/screens/home.dart';
+import 'package:auth/screens/details.dart';
+//import 'package:auth/screens/home.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatefulWidget {
+class Loginpage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginpageState createState() => _LoginpageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginpageState extends State<Loginpage> {
   String _email, _password;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
         //navigate to home
 
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home()));
+            context, MaterialPageRoute(builder: (context) => Details()));
       } catch (e) {
         print(e.message);
       }

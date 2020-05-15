@@ -1,5 +1,5 @@
-import 'package:auth/services/signIn.dart';
 import 'package:auth/services/signUp.dart';
+import 'package:auth/services/signUpOwner.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatefulWidget {
@@ -11,6 +11,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: Text('Welcome'),
         centerTitle: true,
@@ -22,12 +23,12 @@ class _WelcomeState extends State<Welcome> {
           RaisedButton(
             color: Colors.blue,
             onPressed: navigateToSignIn,
-            child: Text('SignIn'),
+            child: Text('User'),
           ),
           RaisedButton(
             color: Colors.blue,
             onPressed: navigateToSignUp,
-            child: Text('SignUp'),
+            child: Text('Owner'),
           ),
         ],
       ),
@@ -38,11 +39,11 @@ class _WelcomeState extends State<Welcome> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => LoginPage(), fullscreenDialog: true));
+            builder: (context) => SignUpPage(), fullscreenDialog: true));
   }
 
   void navigateToSignUp() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignUpPage()));
+        context, MaterialPageRoute(builder: (context) => SignUpOwnerPage()));
   }
 }
