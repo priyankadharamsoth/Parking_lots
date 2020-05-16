@@ -1,4 +1,5 @@
 import 'package:auth/services/geolocator_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -40,12 +41,24 @@ class _HomeState extends State<Home> {
                 : GoogleMap(
                     initialCameraPosition: CameraPosition(
                       target: LatLng(position.latitude, position.longitude),
-                     
                       zoom: 16.0,
                     ),
                     zoomGesturesEnabled: true,
                   ),
           ),
+          SizedBox(height: 20.0),
+          Expanded(
+              child: StreamBuilder(
+            stream: Firestore.instance.collection('Places').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return Text('loading');
+              return Card(
+                child: ListTile(
+                  title: Text(snapshot.data.documents[0]['apartmentname']),
+                ),
+              );
+            },
+          )),
         ],
       ),
     );

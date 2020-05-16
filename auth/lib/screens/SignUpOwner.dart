@@ -1,7 +1,8 @@
 //import 'package:auth/screens/home.dart';
+import 'package:auth/screens/signInOwner.dart';
 import 'package:auth/services/database.dart';
 //import 'package:auth/services/signIn.dart';
-import 'package:auth/services/signInOwner.dart';
+//import 'package:auth/services/signInOwner.dart';
 import 'package:auth/shared/constants.dart';
 //import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
