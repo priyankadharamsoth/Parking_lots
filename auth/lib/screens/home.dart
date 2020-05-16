@@ -50,11 +50,16 @@ class _HomeState extends State<Home> {
           Expanded(
               child: StreamBuilder(
             stream: Firestore.instance.collection('Places').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return Text('loading');
-              return Card(
-                child: ListTile(
-                  title: Text(snapshot.data.documents[0]['apartmentname']),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData)
+                return Center(child: CircularProgressIndicator());
+              return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (BuildContext context, int index) => Card(
+                  child: ListTile(
+                    title: Text(snapshot.data.documents[index]['apartmentname']),
+                  ),
                 ),
               );
             },
