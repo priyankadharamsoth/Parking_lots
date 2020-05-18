@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -29,6 +30,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+    final geoService =GeoLocatorService();
     return Scaffold(
       appBar: AppBar(title: Text('Parking Lots'), centerTitle: true),
       body: Column(
@@ -56,9 +59,29 @@ class _HomeState extends State<Home> {
                 return Center(child: CircularProgressIndicator());
               return ListView.builder(
                 itemCount: snapshot.data.documents.length,
-                itemBuilder: (BuildContext context, int index) => Card(
-                  child: ListTile(
-                    title: Text(snapshot.data.documents[index]['apartmentname']),
+                itemBuilder: (BuildContext context, int index) => FutureProvider(
+                    create:(context)=>geoService.getDistance(
+                      position.latitude, 
+                      position.longitude,
+                      snapshot.data.documents[index]['latitude'],
+                      snapshot.data.documents[index]['longitude'],
+
+                       ),
+                    child: Card(
+                    child: ListTile(
+                      title: Text(snapshot.data.documents[index]['apartmentname']),
+                      subtitle:Column(
+                        children: <Widget>[
+                          Consumer<String>(
+                            builder: (context,meters,widget){
+                              return ( meters != null)
+                              ? Text('${(meters)}mts')
+                            :Container();
+                            }
+                            )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               );
