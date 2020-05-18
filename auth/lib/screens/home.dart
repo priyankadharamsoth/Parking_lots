@@ -30,65 +30,70 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
-    final geoService =GeoLocatorService();
+    final geoService = GeoLocatorService();
     return Scaffold(
       appBar: AppBar(title: Text('Parking Lots'), centerTitle: true),
-      body: Column(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            width: MediaQuery.of(context).size.width,
-            child: position == null
-                ? Center(child: CircularProgressIndicator())
-                : GoogleMap(
+      body: position == null
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: MediaQuery.of(context).size.width,
+                  child: GoogleMap(
                     initialCameraPosition: CameraPosition(
                       target: LatLng(position.latitude, position.longitude),
                       zoom: 16.0,
                     ),
                     zoomGesturesEnabled: true,
                   ),
-          ),
-          SizedBox(height: 20.0),
-          Expanded(
-              child: StreamBuilder(
-            stream: Firestore.instance.collection('Places').snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData)
-                return Center(child: CircularProgressIndicator());
-              return ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (BuildContext context, int index) => FutureProvider(
-                    create:(context)=>geoService.getDistance(
-                      position.latitude, 
-                      position.longitude,
-                      snapshot.data.documents[index]['latitude'],
-                      snapshot.data.documents[index]['longitude'],
-
-                       ),
-                    child: Card(
-                    child: ListTile(
-                      title: Text(snapshot.data.documents[index]['apartmentname']),
-                      subtitle:Column(
-                        children: <Widget>[
-                          Consumer<String>(
-                            builder: (context,meters,widget){
-                              return ( meters != null)
-                              ? Text('${(meters)}mts')
-                            :Container();
-                            }
-                            )
-                        ],
-                      ),
-                    ),
-                  ),
                 ),
-              );
-            },
-          )),
-        ],
-      ),
+                SizedBox(height: 20.0),
+                Expanded(
+                    child: StreamBuilder(
+                  stream: Firestore.instance.collection('Places').snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData)
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          FutureProvider(
+                        create: (context) => geoService.getDistance(
+                          position.latitude,
+                          position.longitude,
+                          double.parse(
+                            snapshot.data.documents[index]['latitude'],
+                          ),
+                          double.parse(
+                            snapshot.data.documents[index]['longitude'],
+                          ),
+                        ),
+                        child: Card(
+                          child: Consumer<double>(
+                              builder: (context, meters, widget) {
+                            return (meters != null)
+                                ? (meters < 1000.0) ? ListTile(
+                                    title: Text(snapshot.data.documents[index]
+                                        ['apartmentname']),
+                                    subtitle: Column(
+                                      children: <Widget>[
+                                        Text('${(meters)}mts')
+                                      ],
+                                    ),
+                                  ) : Container()
+                                : Container();
+                          }),
+                        ),
+                      ),
+                    );
+                  },
+                )),
+              ],
+            ),
     );
   }
 }
