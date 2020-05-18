@@ -1,8 +1,5 @@
-//import 'package:auth/screens/home.dart';
-//import 'package:auth/services/signIn.dart';
 import 'package:auth/screens/signIn.dart';
 import 'package:auth/shared/constants.dart';
-//import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

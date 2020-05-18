@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -32,7 +33,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final geoService = GeoLocatorService();
     return Scaffold(
-      appBar: AppBar(title: Text('Parking Lots'), centerTitle: true),
+      appBar: AppBar(
+        title: Text('Parking Lots'),
+        centerTitle: true,
+        backgroundColor: Colors.orange,
+      ),
       body: position == null
           ? Center(child: CircularProgressIndicator())
           : Column(
@@ -76,15 +81,35 @@ class _HomeState extends State<Home> {
                           child: Consumer<double>(
                               builder: (context, meters, widget) {
                             return (meters != null)
-                                ? (meters < 1000.0) ? ListTile(
-                                    title: Text(snapshot.data.documents[index]
-                                        ['apartmentname']),
-                                    subtitle: Column(
-                                      children: <Widget>[
-                                        Text('${(meters)}mts')
-                                      ],
-                                    ),
-                                  ) : Container()
+                                ? (meters < 1000.0)
+                                    ? ListTile(
+                                        title: Text(snapshot.data
+                                            .documents[index]['apartmentname']),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text('dist:${(meters.round())}mts')
+                                          ],
+                                        ),
+                                        trailing: IconButton(
+                                          icon: Icon(Icons.directions),
+                                          color: Colors.orange,
+                                          onPressed: () {
+                                            _launchMapsUrl(
+                                              double.parse(
+                                                snapshot.data.documents[index]
+                                                    ['latitude'],
+                                              ),
+                                              double.parse(
+                                                snapshot.data.documents[index]
+                                                    ['longitude'],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    : Container()
                                 : Container();
                           }),
                         ),
@@ -96,4 +121,15 @@ class _HomeState extends State<Home> {
             ),
     );
   }
+
+void _launchMapsUrl(double lat, double lng) async {
+    final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 }
+
+  

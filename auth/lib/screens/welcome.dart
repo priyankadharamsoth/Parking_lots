@@ -1,7 +1,5 @@
 import 'package:auth/screens/SignUpOwner.dart';
 import 'package:auth/screens/signUp.dart';
-//import 'package:auth/services/signUp.dart';
-//import 'package:auth/services/signUpOwner.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatefulWidget {

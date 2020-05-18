@@ -1,8 +1,6 @@
 import 'package:auth/screens/details.dart';
-//import 'package:auth/screens/home.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Loginpage extends StatefulWidget {
