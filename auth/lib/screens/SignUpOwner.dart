@@ -120,7 +120,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
 
   navigateToLoginPage() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Loginpage()));
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
   Future<void> signUp() async {
@@ -138,11 +138,15 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                 .createUserWithEmailAndPassword(
                     email: _email, password: _password))
             .user;
+            
         //create a new document for the user with the uid
         await DataBaseService(uid: user.uid)
             .updateOwnerData(_apartmentname, _latitude, _longitude,_role='owner');
+        
+        FirebaseAuth.instance.signOut();
+
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Loginpage()));
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       } catch (e) {
         print(e.message);
       }

@@ -14,9 +14,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Position position;
   GoogleMapController mapController;
-  List<Marker> allMarkers=[]; 
- // final  BitmapDescriptor customIcon;
- 
+  BitmapDescriptor _markerIcon;
+  List<Marker> allMarkers = List<Marker>();
+  // final  BitmapDescriptor customIcon;
+
   void getCurrentLocation() async {
     position = await GeoLocatorService.getLocation();
     setState(() {});
@@ -26,12 +27,40 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getCurrentLocation();
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(200, 200)), 'assets/images/parking.png')
+        .then((value) {
+          setState(() {
+            _markerIcon = value;
+          });
+        });
     super.initState();
-    allMarkers.add(Marker(
-      markerId: MarkerId('mymarker'),
-      draggable:false,
-      position:LatLng(16.9947,79.9750),
-    ));
+    // allMarkers.add(Marker(
+    //   markerId: MarkerId('mymarker'),
+    //   draggable: false,
+    //   position: LatLng(16.9947, 79.9750),
+    // ));
+  }
+
+  void addMarkers(QuerySnapshot snapshot) {
+    if (snapshot == null) 
+      return;
+
+    for (DocumentSnapshot doc in snapshot.documents) {
+      allMarkers.add(
+        Marker(
+          icon: _markerIcon != null ? _markerIcon : Icons.card_travel,
+          markerId: MarkerId(doc.documentID),
+          draggable: false,
+          position: LatLng(
+            double.parse(doc['latitude']),
+            double.parse(
+              doc['longitude'],
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -45,88 +74,100 @@ class _HomeState extends State<Home> {
       ),
       body: position == null
           ? Center(child: CircularProgressIndicator())
-          : Column(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width,
-                  child: GoogleMap(
-                    onMapCreated: (GoogleMapController controller) {
-                      mapController = controller;
-                    },
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(position.latitude, position.longitude),
-                      zoom: 16.0,
-                    ),
-                    markers: Set.from(allMarkers),
-                    zoomGesturesEnabled: true,
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Expanded(
-                    child: StreamBuilder(
-                  stream: Firestore.instance.collection('Places').snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData)
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          FutureProvider(
-                        create: (context) => geoService.getDistance(
-                          position.latitude,
-                          position.longitude,
-                          double.parse(
-                            snapshot.data.documents[index]['latitude'],
-                          ),
-                          double.parse(
-                            snapshot.data.documents[index]['longitude'],
-                          ),
+          : StreamBuilder(
+              stream: Firestore.instance.collection('Places').snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                // To add the markers on to the google maps
+                addMarkers(snapshot.data);
+
+                return Column(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      width: MediaQuery.of(context).size.width,
+                      child: GoogleMap(
+                        onMapCreated: (GoogleMapController controller) {
+                          mapController = controller;
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(position.latitude, position.longitude),
+                          zoom: 16.0,
                         ),
-                        child: Card(
-                          child: Consumer<double>(
-                              builder: (context, meters, widget) {
-                            return (meters != null)
-                                ? (meters < 1000.0)
-                                    ? ListTile(
-                                        title: Text(snapshot.data
-                                            .documents[index]['apartmentname']),
-                                        subtitle: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text('dist:${(meters.round())}mts')
-                                          ],
-                                        ),
-                                        trailing: IconButton(
-                                          icon: Icon(Icons.directions),
-                                          color: Colors.orange,
-                                          onPressed: () {
-                                            _launchMapsUrl(
-                                              double.parse(
-                                                snapshot.data.documents[index]
-                                                    ['latitude'],
-                                              ),
-                                              double.parse(
-                                                snapshot.data.documents[index]
-                                                    ['longitude'],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    : Container()
-                                : Container();
-                          }),
-                        ),
+                        markers: Set.from(allMarkers),
+                        zoomGesturesEnabled: true,
                       ),
-                    );
-                  },
-                )),
-              ],
+                    ),
+                    SizedBox(height: 20.0),
+                    Expanded(
+                      child: !snapshot.hasData
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : ListView.builder(
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  FutureProvider(
+                                create: (context) => geoService.getDistance(
+                                  position.latitude,
+                                  position.longitude,
+                                  double.parse(
+                                    snapshot.data.documents[index]['latitude'],
+                                  ),
+                                  double.parse(
+                                    snapshot.data.documents[index]['longitude'],
+                                  ),
+                                ),
+                                child: Card(
+                                  child: Consumer<double>(
+                                    builder: (context, meters, widget) {
+                                      return (meters != null)
+                                          ? (meters < 1000.0)
+                                              ? ListTile(
+                                                  title: Text(snapshot
+                                                          .data.documents[index]
+                                                      ['apartmentname']),
+                                                  subtitle: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                          'dist:${(meters.round())}mts')
+                                                    ],
+                                                  ),
+                                                  trailing: IconButton(
+                                                    icon:
+                                                        Icon(Icons.directions),
+                                                    color: Colors.orange,
+                                                    onPressed: () {
+                                                      _launchMapsUrl(
+                                                        double.parse(
+                                                          snapshot.data
+                                                                  .documents[
+                                                              index]['latitude'],
+                                                        ),
+                                                        double.parse(
+                                                          snapshot.data
+                                                                      .documents[
+                                                                  index]
+                                                              ['longitude'],
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                )
+                                              : Container()
+                                          : Container();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ),
+                  ],
+                );
+              },
             ),
     );
   }

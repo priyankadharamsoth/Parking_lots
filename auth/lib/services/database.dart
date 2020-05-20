@@ -13,7 +13,7 @@ class DataBaseService {
       'latitude': latitude,
       'longitude': longitude,
       'role' : role,
-    });
+    },);
   }
 }
 

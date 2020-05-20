@@ -116,8 +116,8 @@ class _SignUpState extends State<SignUpPage> {
       try {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _email, password: _password);
+        FirebaseAuth.instance.signOut();
             
-
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } catch (e) {

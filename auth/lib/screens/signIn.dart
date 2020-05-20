@@ -1,8 +1,11 @@
 import 'package:auth/screens/home.dart';
 import 'package:auth/shared/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:auth/screens/details.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -76,10 +79,21 @@ class _LoginPageState extends State<LoginPage> {
         FirebaseUser user = (await FirebaseAuth.instance
                 .signInWithEmailAndPassword(email: _email, password: _password))
             .user;
-        //navigate to home
 
+        // check if the user is owner
+        DocumentSnapshot userDoc = await Firestore.instance.collection('Places').document(user.uid).get();
+
+        // navigate to next page
+        if (userDoc.exists) {
+        //navigate to owner home page
         Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Details()));
+        } else {
+          // navigate to customer home page
+          Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Home()));
+        }
+        
       } catch (e) {
         print(e.message);
       }
