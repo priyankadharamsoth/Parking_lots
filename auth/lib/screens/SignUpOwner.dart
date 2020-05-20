@@ -1,5 +1,7 @@
 
+import 'package:auth/screens/signIn.dart';
 import 'package:auth/screens/signInOwner.dart';
+//import 'package:auth/screens/signInOwner.dart';
 import 'package:auth/services/database.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +13,7 @@ class SignUpOwnerPage extends StatefulWidget {
 }
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
-  String _email, _password, _latitude, _longitude, _apartmentname, _location;
+  String _email, _password, _latitude, _longitude, _apartmentname, _role;
   bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -138,7 +140,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
             .user;
         //create a new document for the user with the uid
         await DataBaseService(uid: user.uid)
-            .updateOwnerData(_apartmentname, _latitude, _longitude);
+            .updateOwnerData(_apartmentname, _latitude, _longitude,_role='owner');
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Loginpage()));
       } catch (e) {

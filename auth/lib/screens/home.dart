@@ -13,11 +13,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Position position;
-
+  GoogleMapController mapController;
+  List<Marker> allMarkers=[]; 
+ // final  BitmapDescriptor customIcon;
+ 
   void getCurrentLocation() async {
-    // GeoLocatorService geolocator = GeoLocatorService();
-    // position = await geolocator.getLocation();
-
     position = await GeoLocatorService.getLocation();
     setState(() {});
     return;
@@ -27,6 +27,11 @@ class _HomeState extends State<Home> {
   void initState() {
     getCurrentLocation();
     super.initState();
+    allMarkers.add(Marker(
+      markerId: MarkerId('mymarker'),
+      draggable:false,
+      position:LatLng(16.9947,79.9750),
+    ));
   }
 
   @override
@@ -46,10 +51,14 @@ class _HomeState extends State<Home> {
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width,
                   child: GoogleMap(
+                    onMapCreated: (GoogleMapController controller) {
+                      mapController = controller;
+                    },
                     initialCameraPosition: CameraPosition(
                       target: LatLng(position.latitude, position.longitude),
                       zoom: 16.0,
                     ),
+                    markers: Set.from(allMarkers),
                     zoomGesturesEnabled: true,
                   ),
                 ),
@@ -122,7 +131,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-void _launchMapsUrl(double lat, double lng) async {
+  void _launchMapsUrl(double lat, double lng) async {
     final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
     if (await canLaunch(url)) {
       await launch(url);
@@ -131,5 +140,3 @@ void _launchMapsUrl(double lat, double lng) async {
     }
   }
 }
-
-  

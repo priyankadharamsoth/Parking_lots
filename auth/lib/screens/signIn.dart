@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                           decoration:
                               textInputDecoration.copyWith(labelText: 'email'),
                         ),
-                        SizedBox(height:10.0),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           onSaved: (input) => _password = input,
                           validator: (input) {
