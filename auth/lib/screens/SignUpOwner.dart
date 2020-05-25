@@ -93,14 +93,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                               labelText: 'longitude'),
                         ),
                         SizedBox(height:10.0),
-                        TextFormField(
-                          onSaved: (input) => _slots = input,
-                          validator: (input) {
-                            if (input.isEmpty) return 'please enter the no.of slots';
-                          },
-                          decoration: textInputDecoration.copyWith(
-                              labelText: 'Slots'),
-                        ),
+                        
                         RaisedButton(
                           onPressed: signUp,
                           child: Text('Register'),
@@ -151,7 +144,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
             
         //create a new document for the user with the uid
         await DataBaseService(uid: user.uid)
-            .updateOwnerData(_apartmentname, _latitude, _longitude,_slots,_role='owner');
+            .updateOwnerData(_apartmentname, _latitude, _longitude,_slots='0',_role='owner');
         
         FirebaseAuth.instance.signOut();
 

@@ -1,4 +1,5 @@
 import 'package:auth/screens/home.dart';
+import 'package:auth/screens/homeOwner.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
         //navigate to owner home page
         // TODO: need to create home page for owner
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => null));
+            context, MaterialPageRoute(builder: (context) => HomeOwner()));
         } else {
           // navigate to customer home page
           Navigator.pushReplacement(
