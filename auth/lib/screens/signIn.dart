@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:auth/screens/details.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -86,8 +84,9 @@ class _LoginPageState extends State<LoginPage> {
         // navigate to next page
         if (userDoc.exists) {
         //navigate to owner home page
+        // TODO: need to create home page for owner
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Details()));
+            context, MaterialPageRoute(builder: (context) => null));
         } else {
           // navigate to customer home page
           Navigator.pushReplacement(

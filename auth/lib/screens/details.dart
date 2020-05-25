@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Details extends StatefulWidget {
+  final String apartmentID;
+
+  // default constructor
+  Details({@required this.apartmentID});
+  
   @override
   _DetailsState createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
+  _DetailsState();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +24,7 @@ class _DetailsState extends State<Details> {
         children: <Widget>[
           Expanded(
             child: StreamBuilder(
-              stream: Firestore.instance.collection('Places').snapshots(),
+              stream: Firestore.instance.collection('Places').document(widget.apartmentID).collection('slots').snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData)
@@ -27,7 +34,7 @@ class _DetailsState extends State<Details> {
                     itemBuilder: (BuildContext context, int index) => Card(
                           child: ListTile(
                             title:
-                                Text(snapshot.data.documents[index]['slots']),
+                                Text(snapshot.data.documents[index]['number'].toString()),
                             trailing: RaisedButton(
                                 onPressed: () {},
                                 child: Text('Book',

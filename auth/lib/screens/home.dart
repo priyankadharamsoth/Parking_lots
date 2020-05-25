@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
                                   child: Consumer<double>(
                                     builder: (context, meters, widget) {
                                       return (meters != null)
-                                          ? (meters < 1000.0)
+                                          ? (meters < 1000.0 || true)
                                               ? ListTile(
                                                   title: Text(snapshot
                                                           .data.documents[index]
@@ -134,7 +134,9 @@ class _HomeState extends State<Home> {
                                                           'dist:${(meters.round())}mts')
                                                     ],
                                                   ),
-                                                  onTap: navigateToDetails,
+                                                  onTap: () {
+                                                    navigateToDetails(apartmentId: snapshot.data.documents[index].documentID);
+                                                  },
                                                   trailing: IconButton(
                                                     icon:
                                                         Icon(Icons.directions),
@@ -179,10 +181,8 @@ class _HomeState extends State<Home> {
       throw 'Could not launch $url';
     }
   }
-  navigateToDetails(){
+  navigateToDetails({@required String apartmentId}){
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Details()));
-  
-
+        context, MaterialPageRoute(builder: (context) => Details(apartmentID: apartmentId,)));
   }
 }
