@@ -85,7 +85,6 @@ class _LoginPageState extends State<LoginPage> {
         // navigate to next page
         if (userDoc.exists) {
         //navigate to owner home page
-        // TODO: need to create home page for owner
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeOwner()));
         } else {

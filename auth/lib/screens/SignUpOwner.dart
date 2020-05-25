@@ -13,7 +13,7 @@ class SignUpOwnerPage extends StatefulWidget {
 }
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
-  String _email, _password, _latitude, _longitude, _apartmentname, _slots,_role;
+  String _email, _password, _latitude, _longitude, _apartmentname,_role;
   bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -144,7 +144,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
             
         //create a new document for the user with the uid
         await DataBaseService(uid: user.uid)
-            .updateOwnerData(_apartmentname, _latitude, _longitude,_slots='0',_role='owner');
+            .updateOwnerData(_apartmentname, _latitude, _longitude,0,_role='owner');
         
         FirebaseAuth.instance.signOut();
 
