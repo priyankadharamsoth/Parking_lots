@@ -1,6 +1,6 @@
 
 import 'package:auth/screens/signIn.dart';
-import 'package:auth/screens/signInOwner.dart';
+//import 'package:auth/screens/signInOwner.dart';
 //import 'package:auth/screens/signInOwner.dart';
 import 'package:auth/services/database.dart';
 import 'package:auth/shared/constants.dart';
@@ -13,7 +13,7 @@ class SignUpOwnerPage extends StatefulWidget {
 }
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
-  String _email, _password, _latitude, _longitude, _apartmentname, _role;
+  String _email, _password, _latitude, _longitude, _apartmentname, _slots,_role;
   bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -43,6 +43,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                     key: _formkey,
                     child: Column(
                       children: <Widget>[
+                        
                         //implement fields
                         TextFormField(
                           onSaved: (input) => _email = input,
@@ -52,7 +53,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           decoration:
                               textInputDecoration.copyWith(labelText: 'email'),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           onSaved: (input) => _password = input,
                           validator: (input) {
@@ -63,7 +64,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                               labelText: 'password'),
                           obscureText: true,
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           onSaved: (input) => _apartmentname = input,
                           validator: (input) {
@@ -73,7 +74,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           decoration: textInputDecoration.copyWith(
                               labelText: 'apartmentname'),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           onSaved: (input) => _latitude = input,
                           validator: (input) {
@@ -82,7 +83,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           decoration: textInputDecoration.copyWith(
                               labelText: 'latitude'),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           onSaved: (input) => _longitude = input,
                           validator: (input) {
@@ -91,9 +92,18 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           decoration: textInputDecoration.copyWith(
                               labelText: 'longitude'),
                         ),
+                        SizedBox(height:10.0),
+                        TextFormField(
+                          onSaved: (input) => _slots = input,
+                          validator: (input) {
+                            if (input.isEmpty) return 'please enter the no.of slots';
+                          },
+                          decoration: textInputDecoration.copyWith(
+                              labelText: 'Slots'),
+                        ),
                         RaisedButton(
                           onPressed: signUp,
-                          child: Text('SignUp'),
+                          child: Text('Register'),
                           color: Colors.orange,
                         ),
                         Row(
@@ -141,7 +151,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
             
         //create a new document for the user with the uid
         await DataBaseService(uid: user.uid)
-            .updateOwnerData(_apartmentname, _latitude, _longitude,_role='owner');
+            .updateOwnerData(_apartmentname, _latitude, _longitude,_slots,_role='owner');
         
         FirebaseAuth.instance.signOut();
 

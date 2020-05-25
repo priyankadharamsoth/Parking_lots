@@ -1,3 +1,4 @@
+import 'package:auth/screens/details.dart';
 import 'package:auth/services/geolocator_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -28,18 +29,14 @@ class _HomeState extends State<Home> {
   void initState() {
     getCurrentLocation();
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(200, 200)), 'assets/images/parking.png')
+            ImageConfiguration(size: Size(100, 1000)), 'assets/images/parking3.jpg')
         .then((value) {
           setState(() {
             _markerIcon = value;
           });
         });
     super.initState();
-    // allMarkers.add(Marker(
-    //   markerId: MarkerId('mymarker'),
-    //   draggable: false,
-    //   position: LatLng(16.9947, 79.9750),
-    // ));
+    
   }
 
   void addMarkers(QuerySnapshot snapshot) {
@@ -52,6 +49,7 @@ class _HomeState extends State<Home> {
           icon: _markerIcon != null ? _markerIcon : Icons.card_travel,
           markerId: MarkerId(doc.documentID),
           draggable: false,
+          infoWindow: InfoWindow(title:doc['apartmentname']),
           position: LatLng(
             double.parse(doc['latitude']),
             double.parse(
@@ -136,6 +134,7 @@ class _HomeState extends State<Home> {
                                                           'dist:${(meters.round())}mts')
                                                     ],
                                                   ),
+                                                  onTap: navigateToDetails,
                                                   trailing: IconButton(
                                                     icon:
                                                         Icon(Icons.directions),
@@ -179,5 +178,11 @@ class _HomeState extends State<Home> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+  navigateToDetails(){
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Details()));
+  
+
   }
 }
