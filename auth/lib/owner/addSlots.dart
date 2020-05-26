@@ -1,5 +1,4 @@
 import 'package:auth/shared/constants.dart';
-// import 'package:firebase/firebase.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,22 +44,24 @@ class _HomeOwnerState extends State<HomeOwner> {
 
     // create a new slots in the slots collection of the appartment doc
     Map<String, dynamic> defaultData = {
-        'availability': true,
-        'currentUser': null,
-        'number': userdoc.data['slots'],
-        'slotBookedTime': null,
-        'status': 'active', // possible values [active, inactive]
-      };
+      'availability': true,
+      'currentUser': null,
+      'number': userdoc.data['slots'],
+      'slotBookedTime': null,
+      'status': 'active', // possible values [active, inactive]
+    };
 
     for (int i = 0; i < noOfSlots; i++) {
       defaultData['number']++;
-      batch.setData(userdoc.reference.collection('slots').document(), defaultData);
-    } 
+      batch.setData(
+          userdoc.reference.collection('slots').document(), defaultData);
+    }
 
     await batch.commit();
 
     // update the apartment document with increment of no of slots
-    await userdoc.reference.updateData({'slots': userdoc.data['slots'] + noOfSlots});
+    await userdoc.reference
+        .updateData({'slots': userdoc.data['slots'] + noOfSlots});
     userdoc = await userdoc.reference.get();
   }
 
@@ -79,6 +80,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 30.0),
+
                     //implement fields
                     TextFormField(
                       keyboardType: TextInputType.number,

@@ -1,7 +1,7 @@
-import 'package:auth/screens/home.dart';
-import 'package:auth/screens/homeOwner.dart';
+
 import 'package:auth/services/details.dart';
 import 'package:auth/shared/constants.dart';
+import 'package:auth/user/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

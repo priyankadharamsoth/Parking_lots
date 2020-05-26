@@ -1,7 +1,6 @@
-//import 'package:auth/screens/details.dart';
 
-import 'package:auth/screens/slots.dart';
 import 'package:auth/services/geolocator_service.dart';
+import 'package:auth/user/slots.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

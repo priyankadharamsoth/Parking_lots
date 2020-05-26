@@ -1,9 +1,6 @@
-
-import 'package:auth/screens/signIn.dart';
-//import 'package:auth/screens/signInOwner.dart';
-//import 'package:auth/screens/signInOwner.dart';
 import 'package:auth/services/database.dart';
 import 'package:auth/shared/constants.dart';
+import 'package:auth/user/signIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
