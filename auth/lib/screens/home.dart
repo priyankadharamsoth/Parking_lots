@@ -1,4 +1,6 @@
-import 'package:auth/screens/details.dart';
+//import 'package:auth/screens/details.dart';
+
+import 'package:auth/screens/slots.dart';
 import 'package:auth/services/geolocator_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -183,6 +185,6 @@ class _HomeState extends State<Home> {
   }
   navigateToDetails({@required String apartmentId}){
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Details(apartmentID: apartmentId,)));
+        context, MaterialPageRoute(builder: (context) => Slots(apartmentID: apartmentId,)));
   }
 }

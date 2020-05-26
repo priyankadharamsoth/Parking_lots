@@ -58,7 +58,8 @@ class _HomeOwnerState extends State<HomeOwner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('details')),
+      appBar: AppBar(title: Text('Add slots'),
+      backgroundColor: Colors.orange,),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Center(
@@ -81,7 +82,8 @@ class _HomeOwnerState extends State<HomeOwner> {
                     SizedBox(height: 10.0),
                     RaisedButton(
                       onPressed: validateAndSubmit,
-                      child: Text('Add'),
+                      child: Text('Add',style:TextStyle(color:Colors.white)),
+                      color:Colors.orange,
                     ),
                   ],
                 ),
@@ -98,9 +100,10 @@ class _HomeOwnerState extends State<HomeOwner> {
         _isLoading = true;
       });
 
-      
-
-      setState(() {
+      for (int i = 0; i < _slots; i++) {
+        await addSlot();
+      }
+       setState(() {
         _isLoading = false;
       });
     }

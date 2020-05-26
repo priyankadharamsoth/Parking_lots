@@ -1,5 +1,6 @@
 import 'package:auth/screens/home.dart';
 import 'package:auth/screens/homeOwner.dart';
+import 'package:auth/services/details.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
         if (userDoc.exists) {
         //navigate to owner home page
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeOwner()));
+            context, MaterialPageRoute(builder: (context) =>Details()));
         } else {
           // navigate to customer home page
           Navigator.pushReplacement(
