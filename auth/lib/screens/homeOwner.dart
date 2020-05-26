@@ -19,10 +19,18 @@ class _HomeOwnerState extends State<HomeOwner> {
   DocumentSnapshot userdoc;
 
   void getUserdata() async {
+    // set the loading to true
+    setState(() {
+        _isLoading = true;
+      });
     final FirebaseUser user = await auth.currentUser();
     userdoc =
         await Firestore.instance.collection('Places').document(user.uid).get();
-    setState(() {});
+
+    // set the loading to false
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -61,6 +69,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                     SizedBox(height: 30.0),
                     //implement fields
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       onSaved: (input) => _slots = int.parse(input),
                       validator: (input) {
                         if (input.isEmpty) return 'please add no.of slots to add';
@@ -84,13 +93,16 @@ class _HomeOwnerState extends State<HomeOwner> {
   void validateAndSubmit() async {
     FormState state = _formkey.currentState;
     if (state.validate()) {
+      state.save();
       setState(() {
         _isLoading = true;
       });
 
-      for (int i = 0; i < _slots; i++) {
-        await addSlot();
-      }
+      
+
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 }
