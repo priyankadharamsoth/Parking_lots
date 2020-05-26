@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Details extends StatefulWidget {
+class Slots extends StatefulWidget {
   final String apartmentID;
 
   // default constructor
-  Details({@required this.apartmentID});
+  Slots({@required this.apartmentID});
 
   @override
-  _DetailsState createState() => _DetailsState();
+  _SlotsState createState() => _SlotsState();
 }
 
-class _DetailsState extends State<Details> {
-  _DetailsState();
+class _SlotsState extends State<Slots> {
+  _SlotsState();
   bool i;
 
   @override
