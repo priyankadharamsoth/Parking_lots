@@ -1,4 +1,5 @@
 import 'package:auth/shared/constants.dart';
+// import 'package:firebase/firebase.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,8 +22,8 @@ class _HomeOwnerState extends State<HomeOwner> {
   void getUserdata() async {
     // set the loading to true
     setState(() {
-        _isLoading = true;
-      });
+      _isLoading = true;
+    });
     final FirebaseUser user = await auth.currentUser();
     userdoc =
         await Firestore.instance.collection('Places').document(user.uid).get();
@@ -39,27 +40,37 @@ class _HomeOwnerState extends State<HomeOwner> {
     super.initState();
   }
 
-  Future<void> addSlot() async {
-    // create a new slot in the slots collection of the appartment doc
-    await userdoc.reference.collection('slots').add(
-      {
+  Future<void> addSlots(int noOfSlots) async {
+    WriteBatch batch = Firestore.instance.batch();
+
+    // create a new slots in the slots collection of the appartment doc
+    Map<String, dynamic> defaultData = {
         'availability': true,
         'currentUser': null,
-        'number': userdoc.data['slots'] + 1,
+        'number': userdoc.data['slots'],
         'slotBookedTime': null,
         'status': 'active', // possible values [active, inactive]
-      },
-    );
+      };
+
+    for (int i = 0; i < noOfSlots; i++) {
+      defaultData['number']++;
+      batch.setData(userdoc.reference.collection('slots').document(), defaultData);
+    } 
+
+    await batch.commit();
 
     // update the apartment document with increment of no of slots
-    await userdoc.reference.updateData({'slots': userdoc.data['slots'] + 1});
+    await userdoc.reference.updateData({'slots': userdoc.data['slots'] + noOfSlots});
+    userdoc = await userdoc.reference.get();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add slots'),
-      backgroundColor: Colors.orange,),
+      appBar: AppBar(
+        title: Text('Add slots'),
+        backgroundColor: Colors.orange,
+      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Center(
@@ -73,7 +84,8 @@ class _HomeOwnerState extends State<HomeOwner> {
                       keyboardType: TextInputType.number,
                       onSaved: (input) => _slots = int.parse(input),
                       validator: (input) {
-                        if (input.isEmpty) return 'please add no.of slots to add';
+                        if (input.isEmpty)
+                          return 'please add no.of slots to add';
                         return null;
                       },
                       decoration:
@@ -82,8 +94,8 @@ class _HomeOwnerState extends State<HomeOwner> {
                     SizedBox(height: 10.0),
                     RaisedButton(
                       onPressed: validateAndSubmit,
-                      child: Text('Add',style:TextStyle(color:Colors.white)),
-                      color:Colors.orange,
+                      child: Text('Add', style: TextStyle(color: Colors.white)),
+                      color: Colors.orange,
                     ),
                   ],
                 ),
@@ -100,10 +112,9 @@ class _HomeOwnerState extends State<HomeOwner> {
         _isLoading = true;
       });
 
-      for (int i = 0; i < _slots; i++) {
-        await addSlot();
-      }
-       setState(() {
+      await addSlots(_slots);
+
+      setState(() {
         _isLoading = false;
       });
     }
