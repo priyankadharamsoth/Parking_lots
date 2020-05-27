@@ -66,8 +66,8 @@ class _DetailsState extends State<Details> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomeOwner()));
   }
-  navigateToDisablepage({@required String apartmentId}){
+  navigateToDisablepage(){
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Disable(apartment: apartmentId,)));
+        context, MaterialPageRoute(builder: (context) => Disable()));
   }
 }

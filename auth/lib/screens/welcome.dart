@@ -22,12 +22,12 @@ class _WelcomeState extends State<Welcome> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           RaisedButton(
-            color: Colors.blue,
+            color: Colors.orange,
             onPressed: navigateToSignIn,
             child: Text('User'),
           ),
           RaisedButton(
-            color: Colors.blue,
+            color: Colors.orange,
             onPressed: navigateToSignUp,
             child: Text('Owner'),
           ),

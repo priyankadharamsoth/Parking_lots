@@ -44,12 +44,16 @@ class _SlotsState extends State<Slots> {
                       //  (snapshot.data.documents[index]['availability'] == true)
 
                       trailing:(snapshot.data.documents[index]['availability'])? RaisedButton(
-                          onPressed: () {},
+                          onPressed: (){
+                            //snapshot.data.documents[index]['availability'] ==false;
+                          },
                           child: Text('Book',
                               style: TextStyle(color: Colors.white)),
                           color: Colors.green)
                           :RaisedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            
+                          },
                           child: Text('Booked',
                               style: TextStyle(color: Colors.white)),
                           color: Colors.red)
@@ -63,4 +67,6 @@ class _SlotsState extends State<Slots> {
       ),
     );
   }
+  
+  
 }

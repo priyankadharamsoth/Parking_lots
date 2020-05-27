@@ -79,7 +79,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                 key: _formkey,
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 40.0),
 
                     //implement fields
                     TextFormField(
