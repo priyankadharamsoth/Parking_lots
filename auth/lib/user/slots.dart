@@ -1,3 +1,4 @@
+import 'package:auth/user/book.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -52,7 +53,7 @@ class _SlotsState extends State<Slots> {
                           color: Colors.green)
                           :RaisedButton(
                           onPressed: () {
-                            
+                          navigateToBookingPage(slotsId: snapshot.data.documents[index].documentID);
                           },
                           child: Text('Booked',
                               style: TextStyle(color: Colors.white)),
@@ -67,6 +68,9 @@ class _SlotsState extends State<Slots> {
       ),
     );
   }
-  
+  navigateToBookingPage({@required String slotsId}){
+   Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Book(slotsID:slotsId,)));
+  }
   
 }
