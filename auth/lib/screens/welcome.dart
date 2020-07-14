@@ -14,24 +14,27 @@ class _WelcomeState extends State<Welcome> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text('Welcome'),
+        title: Text('Welcome',style:TextStyle(fontFamily: 'Lobster',color:Colors.black,fontSize: 25.0)),
         centerTitle: true,
+        
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           RaisedButton(
-            color: Colors.orange,
+            color: Colors.teal,
             onPressed: navigateToSignIn,
             child: Text('User'),
           ),
           RaisedButton(
-            color: Colors.orange,
+            color: Colors.teal,
             onPressed: navigateToSignUp,
             child: Text('Owner'),
           ),
+          
         ],
+
       ),
     );
   }

@@ -18,8 +18,9 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
     return Scaffold(
       backgroundColor: Colors.orange[50],
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text('signUp'),
+        title: Text('Register',style:TextStyle(fontFamily: 'Lobster',color:Colors.black,fontSize: 25.0)),
+        centerTitle: true,
+        
       ),
       body: _isLoading == true
           ? Container(
@@ -94,7 +95,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                         RaisedButton(
                           onPressed: signUp,
                           child: Text('Register'),
-                          color: Colors.orange,
+                          color: Colors.teal,
                         ),
                         Row(
                           children: <Widget>[
@@ -105,7 +106,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                               child: Text(
                                 'Login',
                                 style: TextStyle(
-                                    color: Colors.orange[400], fontSize: 18.0),
+                                    color: Colors.teal, fontSize: 18.0),
                               ),
                               color: Colors.orange[50],
                             ),

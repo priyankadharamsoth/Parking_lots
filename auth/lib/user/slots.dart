@@ -39,26 +39,20 @@ class _SlotsState extends State<Slots> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) => Card(
                     child: ListTile(
-                      title: Text(
-                          'slot${snapshot.data.documents[index]['number'].toString()}'),
-
-                      //  (snapshot.data.documents[index]['availability'] == true)
-
-                      trailing:(snapshot.data.documents[index]['availability'])? RaisedButton(
-                          onPressed: (){
-                            //snapshot.data.documents[index]['availability'] ==false;
-                          },
-                          child: Text('Book',
-                              style: TextStyle(color: Colors.white)),
-                          color: Colors.green)
-                          :RaisedButton(
-                          onPressed: () {
-                          navigateToBookingPage(slotsId: snapshot.data.documents[index].documentID);
-                          },
-                          child: Text('Booked',
-                              style: TextStyle(color: Colors.white)),
-                          color: Colors.red)
-                    ),
+                        title: Text(
+                            'slot${snapshot.data.documents[index]['number'].toString()}'),
+                        trailing: (snapshot.data.documents[index]
+                                ['availability'])
+                            ? RaisedButton(
+                                onPressed: navigateToBookingPage,
+                                child: Text('Book',
+                                    style: TextStyle(color: Colors.white)),
+                                color: Colors.green)
+                            : RaisedButton(
+                                onPressed: () {},
+                                child: Text('Booked',
+                                    style: TextStyle(color: Colors.white)),
+                                color: Colors.red)),
                   ),
                 );
               },
@@ -68,9 +62,9 @@ class _SlotsState extends State<Slots> {
       ),
     );
   }
-  navigateToBookingPage({@required String slotsId}){
-   Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Book(slotsID:slotsId,)));
+
+  navigateToBookingPage() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Book()));
   }
-  
 }
+          

@@ -18,9 +18,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange[50],
+        backgroundColor: Colors.teal,
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.teal,
           title: Text('signIn'),
         ),
         body: Container(
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                         RaisedButton(
                           onPressed: signIn,
                           child: Text('SignIn'),
-                          color: Colors.orange,
+                          color: Colors.teal,
                         )
                       ],
                     )))));
