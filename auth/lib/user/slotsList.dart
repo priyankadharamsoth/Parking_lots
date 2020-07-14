@@ -1,6 +1,7 @@
-import 'package:auth/user/book.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:auth/user/slot.dart';
 
 class Slots extends StatefulWidget {
   final String apartmentID;
@@ -39,20 +40,22 @@ class _SlotsState extends State<Slots> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) => Card(
                     child: ListTile(
-                        title: Text(
-                            'slot${snapshot.data.documents[index]['number'].toString()}'),
-                        trailing: (snapshot.data.documents[index]
-                                ['availability'])
-                            ? RaisedButton(
-                                onPressed: navigateToBookingPage,
-                                child: Text('Book',
-                                    style: TextStyle(color: Colors.white)),
-                                color: Colors.green)
-                            : RaisedButton(
-                                onPressed: () {},
-                                child: Text('Booked',
-                                    style: TextStyle(color: Colors.white)),
-                                color: Colors.red)),
+                      title: Text(
+                          'slot${snapshot.data.documents[index]['number'].toString()}'),
+                      onTap: () {
+                        if (snapshot.data.documents[index]['availability']) {
+                          navigateToBookingPage(snapshot.data.documents[index]);
+                        }
+                      },
+                      trailing: (snapshot.data.documents[index]['availability'])
+                          ? Text('Available')
+                          : Text(
+                              'Unavailable',
+                              style: TextStyle(
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                    ),
                   ),
                 );
               },
@@ -63,8 +66,14 @@ class _SlotsState extends State<Slots> {
     );
   }
 
-  navigateToBookingPage() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Book()));
+  navigateToBookingPage(DocumentSnapshot ref) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SlotScreen(
+          slotDoc: ref,
+        ),
+      ),
+    );
   }
 }
-          

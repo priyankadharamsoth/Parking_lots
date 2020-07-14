@@ -1,4 +1,3 @@
-
 import 'package:auth/services/details.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:auth/user/home.dart';
@@ -18,9 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.orange[50],
         appBar: AppBar(
-          backgroundColor: Colors.teal,
           title: Text('signIn'),
         ),
         body: Container(
@@ -81,19 +79,21 @@ class _LoginPageState extends State<LoginPage> {
             .user;
 
         // check if the user is owner
-        DocumentSnapshot userDoc = await Firestore.instance.collection('Places').document(user.uid).get();
+        DocumentSnapshot userDoc = await Firestore.instance
+            .collection('Places')
+            .document(user.uid)
+            .get();
 
         // navigate to next page
         if (userDoc.exists) {
-        //navigate to owner home page
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) =>Details()));
+          //navigate to owner home page
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Details()));
         } else {
           // navigate to customer home page
           Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home()));
+              context, MaterialPageRoute(builder: (context) => Home()));
         }
-        
       } catch (e) {
         print(e.message);
       }

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Disable extends StatefulWidget {
-  
   @override
   _DisableState createState() => _DisableState();
 }
@@ -23,7 +22,7 @@ class _DisableState extends State<Disable> {
     userdoc =
         await Firestore.instance.collection('Places').document(user.uid).get();
 
-   // set the loading to false
+    // set the loading to false
     setState(() {
       _isLoading = false;
     });
@@ -34,6 +33,7 @@ class _DisableState extends State<Disable> {
     getUserdata();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,22 +57,23 @@ class _DisableState extends State<Disable> {
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (BuildContext context, int index) => Card(
                     child: ListTile(
-                      title: Text(
-                          'slot${snapshot.data.documents[index]['number'].toString()}'),
+                        title: Text(
+                            'slot${snapshot.data.documents[index]['number'].toString()}'),
 
-                      //  (snapshot.data.documents[index]['availability'] == true)
+                        //  (snapshot.data.documents[index]['availability'] == true)
 
-                      trailing:(snapshot.data.documents[index]['availability'])? RaisedButton(
-                          onPressed: () {},
-                          child: Text('Enable',
-                              style: TextStyle(color: Colors.white)),
-                          color: Colors.green)
-                          :RaisedButton(
-                          onPressed: () {},
-                          child: Text('Disable',
-                              style: TextStyle(color: Colors.white)),
-                          color: Colors.red)
-                    ),
+                        trailing: (snapshot.data.documents[index]
+                                ['availability'])
+                            ? RaisedButton(
+                                onPressed: () {},
+                                child: Text('Enable',
+                                    style: TextStyle(color: Colors.white)),
+                                color: Colors.green)
+                            : RaisedButton(
+                                onPressed: () {},
+                                child: Text('Disable',
+                                    style: TextStyle(color: Colors.white)),
+                                color: Colors.red)),
                   ),
                 );
               },
@@ -83,6 +84,3 @@ class _DisableState extends State<Disable> {
     );
   }
 }
-
-      
-  

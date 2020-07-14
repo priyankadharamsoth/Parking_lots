@@ -10,7 +10,7 @@ class SignUpOwnerPage extends StatefulWidget {
 }
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
-  String _email, _password, _latitude, _longitude, _apartmentname,_role;
+  String _email, _password, _latitude, _longitude, _apartmentname, _role;
   bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -18,9 +18,10 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
     return Scaffold(
       backgroundColor: Colors.orange[50],
       appBar: AppBar(
-        title: Text('Register',style:TextStyle(fontFamily: 'Lobster',color:Colors.black,fontSize: 25.0)),
+        title: Text('Register',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
-        
       ),
       body: _isLoading == true
           ? Container(
@@ -41,7 +42,6 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                     key: _formkey,
                     child: Column(
                       children: <Widget>[
-                        
                         //implement fields
                         TextFormField(
                           onSaved: (input) => _email = input,
@@ -90,8 +90,8 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           decoration: textInputDecoration.copyWith(
                               labelText: 'longitude'),
                         ),
-                        SizedBox(height:10.0),
-                        
+                        SizedBox(height: 10.0),
+
                         RaisedButton(
                           onPressed: signUp,
                           child: Text('Register'),
@@ -139,11 +139,11 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                 .createUserWithEmailAndPassword(
                     email: _email, password: _password))
             .user;
-            
+
         //create a new document for the user with the uid
-        await DataBaseService(uid: user.uid)
-            .updateOwnerData(_apartmentname, _latitude, _longitude,0,_role='owner');
-        
+        await DataBaseService(uid: user.uid).updateOwnerData(
+            _apartmentname, _latitude, _longitude, 0, _role = 'owner');
+
         FirebaseAuth.instance.signOut();
 
         Navigator.push(

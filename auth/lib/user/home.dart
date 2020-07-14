@@ -1,6 +1,5 @@
-
 import 'package:auth/services/geolocator_service.dart';
-import 'package:auth/user/slots.dart';
+import 'package:auth/user/slotsList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -29,20 +28,18 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getCurrentLocation();
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(100, 1000)), 'assets/images/parking3.jpg')
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 1000)),
+            'assets/images/parking3.jpg')
         .then((value) {
-          setState(() {
-            _markerIcon = value;
-          });
-        });
+      setState(() {
+        _markerIcon = value;
+      });
+    });
     super.initState();
-    
   }
 
   void addMarkers(QuerySnapshot snapshot) {
-    if (snapshot == null) 
-      return;
+    if (snapshot == null) return;
 
     for (DocumentSnapshot doc in snapshot.documents) {
       allMarkers.add(
@@ -50,7 +47,7 @@ class _HomeState extends State<Home> {
           icon: _markerIcon != null ? _markerIcon : Icons.card_travel,
           markerId: MarkerId(doc.documentID),
           draggable: false,
-          infoWindow: InfoWindow(title:doc['apartmentname']),
+          infoWindow: InfoWindow(title: doc['apartmentname']),
           position: LatLng(
             double.parse(doc['latitude']),
             double.parse(
@@ -136,7 +133,11 @@ class _HomeState extends State<Home> {
                                                     ],
                                                   ),
                                                   onTap: () {
-                                                    navigateToDetails(apartmentId: snapshot.data.documents[index].documentID);
+                                                    navigateToDetails(
+                                                        apartmentId: snapshot
+                                                            .data
+                                                            .documents[index]
+                                                            .documentID);
                                                   },
                                                   trailing: IconButton(
                                                     icon:
@@ -182,8 +183,13 @@ class _HomeState extends State<Home> {
       throw 'Could not launch $url';
     }
   }
-  navigateToDetails({@required String apartmentId}){
+
+  navigateToDetails({@required String apartmentId}) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Slots(apartmentID: apartmentId,)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => Slots(
+                  apartmentID: apartmentId,
+                )));
   }
 }

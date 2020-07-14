@@ -21,7 +21,6 @@ class _SignUpState extends State<SignUpPage> {
       ),
       body: Container(
         width: double.infinity,
-        
         child: Padding(
           padding: EdgeInsets.only(
             left: 20.0,
@@ -40,31 +39,30 @@ class _SignUpState extends State<SignUpPage> {
                     if (input.isEmpty) return 'please type valid email';
                     return null;
                   },
-                  decoration: textInputDecoration.copyWith(
-                              labelText: 'email'),
+                  decoration: textInputDecoration.copyWith(labelText: 'email'),
                 ),
-                SizedBox(height:20.0),
+                SizedBox(height: 20.0),
                 TextFormField(
                   onSaved: (input) => _password = input,
                   validator: (input) {
                     if (input.length < 6) return 'enter atlast 6 letters';
                     return null;
                   },
-                  decoration: textInputDecoration.copyWith(
-                              labelText: 'password'),
+                  decoration:
+                      textInputDecoration.copyWith(labelText: 'password'),
                   obscureText: true,
                 ),
-                SizedBox(height:20.0),
+                SizedBox(height: 20.0),
                 TextFormField(
                   onSaved: (input) => _vehicleNum = input,
                   validator: (input) {
                     if (input.isEmpty) return 'please type your vehicle num';
                     return null;
                   },
-                  decoration:textInputDecoration.copyWith(
-                              labelText: 'vehicle number'),
+                  decoration:
+                      textInputDecoration.copyWith(labelText: 'vehicle number'),
                 ),
-                SizedBox(height:20.0),
+                SizedBox(height: 20.0),
                 TextFormField(
                   onSaved: (input) => _role = input,
                   validator: (input) {
@@ -72,8 +70,8 @@ class _SignUpState extends State<SignUpPage> {
                       return 'please type either user or owner';
                     return null;
                   },
-                  decoration: textInputDecoration.copyWith(
-                              labelText: 'user/owner'),
+                  decoration:
+                      textInputDecoration.copyWith(labelText: 'user/owner'),
                 ),
                 SizedBox(
                   height: 20.0,
@@ -85,12 +83,16 @@ class _SignUpState extends State<SignUpPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    Text('already registerd?',style:TextStyle(fontSize: 15.0)),
+                    Text('already registerd?',
+                        style: TextStyle(fontSize: 15.0)),
                     SizedBox(width: 15.0),
                     FlatButton(
                       onPressed: navigateToLoginpage,
-                      child: Text('Login',style: TextStyle(color:Colors.orange[400],fontSize: 18.0),),
-                    
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            color: Colors.orange[400], fontSize: 18.0),
+                      ),
                       color: Colors.orange[50],
                     ),
                   ],
@@ -117,7 +119,7 @@ class _SignUpState extends State<SignUpPage> {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _email, password: _password);
         FirebaseAuth.instance.signOut();
-            
+
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } catch (e) {

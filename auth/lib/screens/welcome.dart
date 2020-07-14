@@ -1,4 +1,3 @@
-
 import 'package:auth/owner/SignUpOwner.dart';
 import 'package:auth/user/signUp.dart';
 import 'package:flutter/material.dart';
@@ -12,29 +11,30 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
-        title: Text('Welcome',style:TextStyle(fontFamily: 'Lobster',color:Colors.black,fontSize: 25.0)),
+        title: Text('Welcome',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
-        
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          RaisedButton(
-            color: Colors.teal,
-            onPressed: navigateToSignIn,
-            child: Text('User'),
-          ),
-          RaisedButton(
-            color: Colors.teal,
-            onPressed: navigateToSignUp,
-            child: Text('Owner'),
-          ),
-          
-        ],
-
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            RaisedButton(
+              color: Colors.teal,
+              onPressed: navigateToSignIn,
+              child: Text('User'),
+            ),
+            RaisedButton(
+              color: Colors.teal,
+              onPressed: navigateToSignUp,
+              child: Text('Owner'),
+            ),
+          ],
+        ),
       ),
     );
   }
