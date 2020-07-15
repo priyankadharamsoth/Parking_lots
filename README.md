@@ -1,2 +1,2 @@
 # parking lots
-login and signup
+parking lots app
