@@ -4,7 +4,9 @@ import 'package:auth/owner/slotDetails.dart';
 
 import 'package:auth/screens/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,11 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  GoogleMapController mapController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details',
+        title: Text('Home',
             style: TextStyle(
                 fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
@@ -30,8 +34,7 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              //TODO change the name
-              child: Center(child: Text('Blank')),
+              child: Center(child: Text('Details:')),
               decoration: BoxDecoration(
                 color: Colors.teal,
               ),
@@ -41,11 +44,11 @@ class _HomePageState extends State<HomePage> {
               onTap: navigateToSlotspage,
               trailing: Icon(Icons.add),
             ),
-            ListTile(
-              title: Text('disable Slots'),
-              onTap: navigateToDisablepage,
-              trailing: Icon(Icons.remove),
-            ),
+            // ListTile(
+            //   title: Text('disable Slots'),
+            //   onTap: navigateToDisablepage,
+            //   trailing: Icon(Icons.remove),
+            // ),
             ListTile(
               title: Text('Slots'),
               onTap: () {
@@ -65,11 +68,62 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      body: FutureBuilder<FirebaseUser>(
+        future: FirebaseAuth.instance.currentUser(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return FutureBuilder<DocumentSnapshot>(
+              future: Firestore.instance
+                  .collection('Places')
+                  .document(snapshot.data.uid)
+                  .get(),
+              builder: (context, docSnapshot) {
+                if (docSnapshot.connectionState != ConnectionState.done)
+                  return Container(
+                    child: CircularProgressIndicator(),
+                  );
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * .75,
+                        width: MediaQuery.of(context).size.width,
+                        child: GoogleMap(
+                          onMapCreated: (GoogleMapController controller) {
+                            mapController = controller;
+                          },
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(
+                              double.parse(docSnapshot.data.data['latitude']),
+                              double.parse(docSnapshot.data.data['longitude']),
+                            ),
+                            zoom: 16.0,
+                          ),
+                          zoomGesturesEnabled: true,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Text('Welcome ${docSnapshot.data.data['apartmentname']}'),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 
   navigateToWelcomepage() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
   }
 
   navigateToSlotspage() {

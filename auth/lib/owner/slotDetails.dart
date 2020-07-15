@@ -34,6 +34,7 @@ class _SlotDetailsState extends State<SlotDetails> {
         .collection('slots')
         .reference();
     QuerySnapshot slots = await slotsRef.orderBy('number').getDocuments();
+
     print(slots.documents.length);
     for (DocumentSnapshot doc in slots.documents) {
       slotsList.add(Slot.fromFirestore(doc.data, doc.reference));

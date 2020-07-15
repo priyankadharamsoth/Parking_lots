@@ -21,7 +21,10 @@ class _SlotsState extends State<Slots> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Slots'),
+        title: Text('Slots',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
@@ -31,6 +34,7 @@ class _SlotsState extends State<Slots> {
                   .collection('Places')
                   .document(widget.apartmentID)
                   .collection('slots')
+                  .orderBy('number')
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -41,7 +45,7 @@ class _SlotsState extends State<Slots> {
                   itemBuilder: (BuildContext context, int index) => Card(
                     child: ListTile(
                       title: Text(
-                          'slot${snapshot.data.documents[index]['number'].toString()}'),
+                          'slot ${snapshot.data.documents[index]['number'].toString()}'),
                       onTap: () {
                         if (snapshot.data.documents[index]['availability']) {
                           navigateToBookingPage(snapshot.data.documents[index]);

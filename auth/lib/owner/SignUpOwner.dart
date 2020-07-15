@@ -10,7 +10,7 @@ class SignUpOwnerPage extends StatefulWidget {
 }
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
-  String _email, _password, _latitude, _longitude, _apartmentname, _role;
+  String _email, _password, _latitude, _longitude, _apartmentname;
   bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -47,6 +47,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           onSaved: (input) => _email = input,
                           validator: (input) {
                             if (input.isEmpty) return 'please type valid email';
+                            return null;
                           },
                           decoration:
                               textInputDecoration.copyWith(labelText: 'email'),
@@ -57,6 +58,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           validator: (input) {
                             if (input.length < 6)
                               return 'enter atlast 6 letters';
+                            return null;
                           },
                           decoration: textInputDecoration.copyWith(
                               labelText: 'password'),
@@ -68,6 +70,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           validator: (input) {
                             if (input.isEmpty)
                               return 'please type name of your apartment';
+                            return null;
                           },
                           decoration: textInputDecoration.copyWith(
                               labelText: 'apartmentname'),
@@ -77,6 +80,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           onSaved: (input) => _latitude = input,
                           validator: (input) {
                             if (input.isEmpty) return 'please type latitude';
+                            return null;
                           },
                           decoration: textInputDecoration.copyWith(
                               labelText: 'latitude'),
@@ -86,6 +90,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           onSaved: (input) => _longitude = input,
                           validator: (input) {
                             if (input.isEmpty) return 'please type longitude';
+                            return null;
                           },
                           decoration: textInputDecoration.copyWith(
                               labelText: 'longitude'),
@@ -141,8 +146,8 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
             .user;
 
         //create a new document for the user with the uid
-        await DataBaseService(uid: user.uid).updateOwnerData(
-            _apartmentname, _latitude, _longitude, 0, _role = 'owner');
+        await DataBaseService(uid: user.uid)
+            .updateOwnerData(_apartmentname, _latitude, _longitude, 0, 'owner');
 
         await FirebaseAuth.instance.signOut();
 

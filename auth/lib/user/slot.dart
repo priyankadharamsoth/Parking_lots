@@ -77,6 +77,7 @@ class _SlotScreenState extends State<SlotScreen> {
         .getDocuments();
 
     // calculate possible hours
+    possibleHourMap.clear();
     for (var i = 0; i < 24; i++) {
       possibleHourMap[i] = i;
     }
@@ -172,9 +173,13 @@ class _SlotScreenState extends State<SlotScreen> {
                       startTime = value;
                     });
                   },
-                  title: Text(
-                      possibleHourMap.values.elementAt(index).toString() +
-                          ' hour'),
+                  title: possibleHourMap.values.elementAt(index) > 12
+                      ? Text((possibleHourMap.values.elementAt(index) - 12)
+                              .toString() +
+                          ' PM')
+                      : Text(
+                          possibleHourMap.values.elementAt(index).toString() +
+                              ' AM'),
                 );
               },
             ),
@@ -219,7 +224,7 @@ class _SlotScreenState extends State<SlotScreen> {
               ),
               color: Colors.blue,
             ),
-            child: Text('Pick Duration'),
+            child: Text('Pick Duration in hours'),
           ),
           // duration picker
           Container(
@@ -292,7 +297,11 @@ class _SlotScreenState extends State<SlotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('booking of slot ${widget.slotDoc.data['number']}')),
+        title: Text('booking of slot ${widget.slotDoc.data['number']}',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+        centerTitle: true,
+      ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
