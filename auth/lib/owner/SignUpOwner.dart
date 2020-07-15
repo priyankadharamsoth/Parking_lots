@@ -144,7 +144,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
         await DataBaseService(uid: user.uid).updateOwnerData(
             _apartmentname, _latitude, _longitude, 0, _role = 'owner');
 
-        FirebaseAuth.instance.signOut();
+        await FirebaseAuth.instance.signOut();
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));

@@ -1,5 +1,6 @@
 import 'package:auth/shared/constants.dart';
 import 'package:auth/user/signIn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -9,15 +10,16 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpPage> {
-  String _email, _password, _vehicleNum, _role;
+  String _email, _password, _vehicleNum, _username;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text('signUp'),
+        title: Text('SignUp',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+        centerTitle: true,
       ),
       body: Container(
         width: double.infinity,
@@ -33,6 +35,15 @@ class _SignUpState extends State<SignUpPage> {
             child: Column(
               children: <Widget>[
                 //implement fields
+                TextFormField(
+                  onSaved: (input) => _username = input,
+                  validator: (input) {
+                    if (input.isEmpty) return 'please type your name';
+                    return null;
+                  },
+                  decoration: textInputDecoration.copyWith(labelText: 'Name'),
+                ),
+                SizedBox(height: 20.0),
                 TextFormField(
                   onSaved: (input) => _email = input,
                   validator: (input) {
@@ -63,23 +74,10 @@ class _SignUpState extends State<SignUpPage> {
                       textInputDecoration.copyWith(labelText: 'vehicle number'),
                 ),
                 SizedBox(height: 20.0),
-                TextFormField(
-                  onSaved: (input) => _role = input,
-                  validator: (input) {
-                    if (input.isEmpty)
-                      return 'please type either user or owner';
-                    return null;
-                  },
-                  decoration:
-                      textInputDecoration.copyWith(labelText: 'user/owner'),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
                 RaisedButton(
                   onPressed: signUp,
                   child: Text('Register'),
-                  color: Colors.orange,
+                  color: Colors.teal,
                 ),
                 Row(
                   children: <Widget>[
@@ -90,10 +88,9 @@ class _SignUpState extends State<SignUpPage> {
                       onPressed: navigateToLoginpage,
                       child: Text(
                         'Login',
-                        style: TextStyle(
-                            color: Colors.orange[400], fontSize: 18.0),
+                        style: TextStyle(color: Colors.teal, fontSize: 18.0),
                       ),
-                      color: Colors.orange[50],
+                      color: Colors.white,
                     ),
                   ],
                 ),
@@ -118,8 +115,18 @@ class _SignUpState extends State<SignUpPage> {
       try {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _email, password: _password);
-        FirebaseAuth.instance.signOut();
+        FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
+        Map<String, dynamic> mapData = Map<String, dynamic>();
+        mapData['username'] = _username;
+        mapData['email'] = _email;
+        mapData['vechile'] = _vehicleNum;
+        await Firestore.instance
+            .collection('Users')
+            .document(user.uid)
+            .setData(mapData);
+
+        FirebaseAuth.instance.signOut();
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } catch (e) {

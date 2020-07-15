@@ -96,7 +96,9 @@ class _HomeState extends State<Home> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Parking Lots'),
+          title: Text('Parking Lots',
+              style: TextStyle(
+                  fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
           centerTitle: true,
         ),
         drawer: Drawer(

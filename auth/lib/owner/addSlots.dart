@@ -4,12 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HomeOwner extends StatefulWidget {
+class HomeOwner extends StatelessWidget {
   @override
-  _HomeOwnerState createState() => _HomeOwnerState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add slots',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+        centerTitle: true,
+      ),
+      body: Fields(),
+    );
+  }
 }
 
-class _HomeOwnerState extends State<HomeOwner> {
+class Fields extends StatefulWidget {
+  Fields({Key key}) : super(key: key);
+
+  @override
+  _FieldsState createState() => _FieldsState();
+}
+
+class _FieldsState extends State<Fields> {
   int _slots;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   // fireauth instance
@@ -63,26 +80,29 @@ class _HomeOwnerState extends State<HomeOwner> {
     await userdoc.reference
         .updateData({'slots': userdoc.data['slots'] + noOfSlots});
     userdoc = await userdoc.reference.get();
+
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text('Successfully added slots')));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Add slots'),
-        backgroundColor: Colors.orange,
-      ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Center(
-              child: Form(
-                key: _formkey,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 40.0),
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Center(
+            child: Form(
+              key: _formkey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 40.0),
 
-                    //implement fields
-                    TextFormField(
+                  //implement fields
+                  Container(
+                    width: MediaQuery.of(context).size.width * .75,
+                    child: TextFormField(
                       keyboardType: TextInputType.number,
                       onSaved: (input) => _slots = int.parse(input),
                       validator: (input) {
@@ -93,17 +113,17 @@ class _HomeOwnerState extends State<HomeOwner> {
                       decoration:
                           textInputDecoration.copyWith(labelText: 'slots'),
                     ),
-                    SizedBox(height: 10.0),
-                    RaisedButton(
-                      onPressed: validateAndSubmit,
-                      child: Text('Add', style: TextStyle(color: Colors.white)),
-                      color: Colors.orange,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 10.0),
+                  RaisedButton(
+                    onPressed: validateAndSubmit,
+                    child: Text('Add', style: TextStyle(color: Colors.white)),
+                    color: Colors.teal,
+                  ),
+                ],
               ),
             ),
-    );
+          );
   }
 
   void validateAndSubmit() async {

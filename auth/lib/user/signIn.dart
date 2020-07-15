@@ -1,4 +1,4 @@
-import 'package:auth/services/details.dart';
+import 'package:auth/owner/homePage.dart';
 import 'package:auth/shared/constants.dart';
 import 'package:auth/user/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,7 +19,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('signIn'),
+        title: Text('signIn',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+        centerTitle: true,
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -96,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
         if (userDoc.exists) {
           //navigate to owner home page
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Details()));
+              context, MaterialPageRoute(builder: (context) => HomePage()));
         } else {
           // navigate to customer home page
           Navigator.pushReplacement(

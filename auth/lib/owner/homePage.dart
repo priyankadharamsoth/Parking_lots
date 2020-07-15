@@ -1,20 +1,26 @@
 import 'package:auth/owner/DisableSlots.dart';
 import 'package:auth/owner/addSlots.dart';
+import 'package:auth/owner/slotDetails.dart';
 
 import 'package:auth/screens/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Details extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _DetailsState createState() => _DetailsState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _DetailsState extends State<Details> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Details')),
+      appBar: AppBar(
+        title: Text('Details',
+            style: TextStyle(
+                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+        centerTitle: true,
+      ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
@@ -24,9 +30,10 @@ class _DetailsState extends State<Details> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Drawer Header'),
+              //TODO change the name
+              child: Center(child: Text('Blank')),
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.teal,
               ),
             ),
             ListTile(
@@ -40,8 +47,11 @@ class _DetailsState extends State<Details> {
               trailing: Icon(Icons.remove),
             ),
             ListTile(
-              title: Text('View Users'),
-              onTap: () {},
+              title: Text('Slots'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SlotDetails()));
+              },
               trailing: Icon(Icons.person_pin_circle),
             ),
             ListTile(
