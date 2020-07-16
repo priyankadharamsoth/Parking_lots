@@ -10,7 +10,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpPage> {
-  String _email, _password, _vehicleNum, _username;
+  bool _isLoading = false;
+  String _email, _password, _vehicleNum, _username, _phonenum;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -21,84 +22,102 @@ class _SignUpState extends State<SignUpPage> {
                 fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
       ),
-      body: Container(
-        width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 20.0,
-            right: 20.0,
-            top: 5.0,
-            bottom: 5.0,
-          ),
-          child: Form(
-            key: _formkey,
-            child: Column(
-              children: <Widget>[
-                //implement fields
-                TextFormField(
-                  onSaved: (input) => _username = input,
-                  validator: (input) {
-                    if (input.isEmpty) return 'please type your name';
-                    return null;
-                  },
-                  decoration: textInputDecoration.copyWith(labelText: 'Name'),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Container(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 20.0,
+                  right: 20.0,
+                  top: 5.0,
+                  bottom: 5.0,
                 ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  onSaved: (input) => _email = input,
-                  validator: (input) {
-                    if (input.isEmpty) return 'please type valid email';
-                    return null;
-                  },
-                  decoration: textInputDecoration.copyWith(labelText: 'email'),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  onSaved: (input) => _password = input,
-                  validator: (input) {
-                    if (input.length < 6) return 'enter atlast 6 letters';
-                    return null;
-                  },
-                  decoration:
-                      textInputDecoration.copyWith(labelText: 'password'),
-                  obscureText: true,
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  onSaved: (input) => _vehicleNum = input,
-                  validator: (input) {
-                    if (input.isEmpty) return 'please type your vehicle num';
-                    return null;
-                  },
-                  decoration:
-                      textInputDecoration.copyWith(labelText: 'vehicle number'),
-                ),
-                SizedBox(height: 20.0),
-                RaisedButton(
-                  onPressed: signUp,
-                  child: Text('Register'),
-                  color: Colors.teal,
-                ),
-                Row(
-                  children: <Widget>[
-                    Text('already registerd?',
-                        style: TextStyle(fontSize: 15.0)),
-                    SizedBox(width: 15.0),
-                    FlatButton(
-                      onPressed: navigateToLoginpage,
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.teal, fontSize: 18.0),
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: <Widget>[
+                      //implement fields
+                      TextFormField(
+                        onSaved: (input) => _username = input,
+                        validator: (input) {
+                          if (input.isEmpty) return 'please type your name';
+                          return null;
+                        },
+                        decoration:
+                            textInputDecoration.copyWith(labelText: 'Username'),
                       ),
-                      color: Colors.white,
-                    ),
-                  ],
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        onSaved: (input) => _email = input,
+                        validator: (input) {
+                          if (input.isEmpty) return 'please type valid email';
+                          return null;
+                        },
+                        decoration:
+                            textInputDecoration.copyWith(labelText: 'email'),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        onSaved: (input) => _password = input,
+                        validator: (input) {
+                          if (input.length < 6)
+                            return 'enter atleast 6 letters';
+                          return null;
+                        },
+                        decoration:
+                            textInputDecoration.copyWith(labelText: 'password'),
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        onSaved: (input) => _phonenum = input,
+                        keyboardType: TextInputType.number,
+                        validator: (input) {
+                          if (input.length < 10) return 'enter valid phone num';
+                          return null;
+                        },
+                        decoration:
+                            textInputDecoration.copyWith(labelText: 'Phonenum'),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        onSaved: (input) => _vehicleNum = input,
+                        validator: (input) {
+                          if (input.isEmpty)
+                            return 'please type your vehicle num';
+                          return null;
+                        },
+                        decoration: textInputDecoration.copyWith(
+                            labelText: 'vehicle number'),
+                      ),
+                      SizedBox(height: 20.0),
+                      RaisedButton(
+                        onPressed: signUp,
+                        child: Text('Register'),
+                        color: Colors.teal,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text('already registerd?',
+                              style: TextStyle(fontSize: 15.0)),
+                          SizedBox(width: 15.0),
+                          FlatButton(
+                            onPressed: navigateToLoginpage,
+                            child: Text(
+                              'Login',
+                              style:
+                                  TextStyle(color: Colors.teal, fontSize: 18.0),
+                            ),
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -113,6 +132,9 @@ class _SignUpState extends State<SignUpPage> {
       //login to firebase
       formState.save();
       try {
+        setState(() {
+          _isLoading = true;
+        });
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _email, password: _password);
         FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -121,6 +143,7 @@ class _SignUpState extends State<SignUpPage> {
         mapData['username'] = _username;
         mapData['email'] = _email;
         mapData['vechile'] = _vehicleNum;
+        mapData['phonenum'] = _phonenum;
         await Firestore.instance
             .collection('Users')
             .document(user.uid)
@@ -132,6 +155,9 @@ class _SignUpState extends State<SignUpPage> {
       } catch (e) {
         print(e.message);
       }
+      setState(() {
+        _isLoading = true;
+      });
     }
   }
 }
