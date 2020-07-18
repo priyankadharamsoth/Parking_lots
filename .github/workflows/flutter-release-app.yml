@@ -24,7 +24,7 @@ jobs:
     - run: dart --version
     - run: flutter --version
     - run: | 
-        cd pet_app/
+        cd auth/
         flutter pub get
         flutter build apk
     # Upload generated apk to the artifacts.
