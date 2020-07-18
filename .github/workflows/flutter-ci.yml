@@ -28,6 +28,7 @@ jobs:
         # flutter-version: '1.12.x' # you can also specify exact version of flutter
     
     # Get flutter dependencies.
+    - run: cd auth
     - run: flutter pub get
     
     # Check for any formatting issues in the code.
