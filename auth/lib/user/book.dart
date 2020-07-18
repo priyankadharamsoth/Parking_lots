@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Book extends StatefulWidget {
   @override
@@ -22,8 +23,7 @@ class _BookState extends State<Book> {
     return Scaffold(
       appBar: AppBar(
         title: Text('booking',
-            style: TextStyle(
-                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+            style: GoogleFonts.lobster(color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
       ),
       body: Center(

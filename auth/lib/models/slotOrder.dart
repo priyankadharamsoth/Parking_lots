@@ -15,7 +15,7 @@ class SlotOrder {
   SlotOrder.fromFirestore(Map<String, dynamic> mapData) {
     this.customerId = mapData['user'];
     // get the start time
-    this.bookedDate = mapData['start time'].toDate();
+    this.bookedDate = mapData['starttime'].toDate();
     this.startTime = TimeOfDay.fromDateTime(bookedDate);
     this.duration = Duration(hours: mapData['duration']);
   }

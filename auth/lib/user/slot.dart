@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum _State { noneSelected, dateSelected, startTimeSelceted, durationSelected }
 
@@ -51,7 +52,7 @@ class _SlotScreenState extends State<SlotScreen> {
     // calculate the remaining time
     int possibleDuration = 24 - startTime;
     for (DocumentSnapshot doc in history.documents) {
-      DateTime orderStartTime = doc.data['start time'].toDate();
+      DateTime orderStartTime = doc.data['starttime'].toDate();
       if (startTime > orderStartTime.hour) continue;
       if (possibleDuration > (orderStartTime.hour - startTime))
         possibleDuration = orderStartTime.hour - startTime;
@@ -71,9 +72,9 @@ class _SlotScreenState extends State<SlotScreen> {
     // get the history of slot
     history = await widget.slotDoc.reference
         .collection('history')
-        .where('start time', isGreaterThanOrEqualTo: date)
-        .where('start time', isLessThanOrEqualTo: date.add(Duration(days: 1)))
-        .orderBy('start time')
+        .where('starttime', isGreaterThanOrEqualTo: date)
+        .where('starttime', isLessThanOrEqualTo: date.add(Duration(days: 1)))
+        .orderBy('starttime')
         .getDocuments();
 
     // calculate possible hours
@@ -82,7 +83,7 @@ class _SlotScreenState extends State<SlotScreen> {
       possibleHourMap[i] = i;
     }
     for (DocumentSnapshot doc in history.documents) {
-      DateTime orderStartTime = doc.data['start time'].toDate();
+      DateTime orderStartTime = doc.data['starttime'].toDate();
       // remove the start time from the possible hours
       int orderDuration = doc.data['duration'] - 1;
       while (orderDuration >= 0) {
@@ -260,7 +261,7 @@ class _SlotScreenState extends State<SlotScreen> {
 
         // book the slot
         Map<String, dynamic> data = {
-          'start time': DateTime.parse(_bookingDate.toIso8601String())
+          'starttime': DateTime.parse(_bookingDate.toIso8601String())
               .add(Duration(hours: startTime)),
           'duration': duration,
           'user': user.uid,
@@ -298,8 +299,7 @@ class _SlotScreenState extends State<SlotScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('booking of slot ${widget.slotDoc.data['number']}',
-            style: TextStyle(
-                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+            style: GoogleFonts.lobster(color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
       ),
       body: _isLoading

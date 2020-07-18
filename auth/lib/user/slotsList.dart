@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:auth/user/slot.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Slots extends StatefulWidget {
   final String apartmentID;
@@ -22,8 +23,7 @@ class _SlotsState extends State<Slots> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Slots',
-            style: TextStyle(
-                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+            style: GoogleFonts.lobster(color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
       ),
       body: Column(

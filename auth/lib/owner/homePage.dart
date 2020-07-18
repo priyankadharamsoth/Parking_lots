@@ -6,6 +6,7 @@ import 'package:auth/screens/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,8 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home',
-            style: TextStyle(
-                fontFamily: 'Lobster', color: Colors.black, fontSize: 25.0)),
+            style: GoogleFonts.lobster(color: Colors.black, fontSize: 25.0)),
         centerTitle: true,
       ),
       drawer: Drawer(
