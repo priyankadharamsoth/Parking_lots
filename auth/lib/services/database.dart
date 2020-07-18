@@ -7,7 +7,7 @@ class DataBaseService {
   final CollectionReference placesCollection =
       Firestore.instance.collection('Places');
   Future updateOwnerData(String apartmentName, String latitude,
-      String longitude, int slots, String role) async {
+      String longitude, int slots, String role, int cost) async {
     return await placesCollection.document(uid).setData(
       {
         'apartmentname': apartmentName,
@@ -15,6 +15,7 @@ class DataBaseService {
         'longitude': longitude,
         'slots': slots,
         'role': role,
+        'price': cost,
       },
     );
   }

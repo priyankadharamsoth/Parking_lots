@@ -11,6 +11,7 @@ class SignUpOwnerPage extends StatefulWidget {
 
 class _SignUpOwnerState extends State<SignUpOwnerPage> {
   String _email, _password, _latitude, _longitude, _apartmentname;
+  int _cost;
   bool _isLoading = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
@@ -74,6 +75,17 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           },
                           decoration: textInputDecoration.copyWith(
                               labelText: 'apartmentname'),
+                        ),
+                        TextFormField(
+                          onSaved: (input) => _cost = int.parse(input),
+                          keyboardType: TextInputType.number,
+                          validator: (input) {
+                            if (input.isEmpty)
+                              return 'please enter the cost of your slot per hour';
+                            return null;
+                          },
+                          decoration: textInputDecoration.copyWith(
+                              labelText: 'cost per hour'),
                         ),
                         SizedBox(height: 10.0),
                         TextFormField(
@@ -146,8 +158,8 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
             .user;
 
         //create a new document for the user with the uid
-        await DataBaseService(uid: user.uid)
-            .updateOwnerData(_apartmentname, _latitude, _longitude, 0, 'owner');
+        await DataBaseService(uid: user.uid).updateOwnerData(
+            _apartmentname, _latitude, _longitude, 0, 'owner', _cost);
 
         await FirebaseAuth.instance.signOut();
 

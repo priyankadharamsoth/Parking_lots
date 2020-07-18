@@ -10,6 +10,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'notification.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -32,7 +34,7 @@ class _HomeState extends State<Home> {
   void initState() {
     getCurrentLocation();
     BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(100, 1000)),
-            'assets/images/parking3.jpg')
+            'assets/images/Parking.jpg')
         .then((value) {
       setState(() {
         _markerIcon = value;
@@ -115,6 +117,14 @@ class _HomeState extends State<Home> {
                     BoxDecoration(color: Theme.of(context).primaryColor),
               ),
               ListTile(
+                title: Text('Notifications'),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MessagingWidget()));
+                },
+                trailing: Icon(Icons.person),
+              ),
+              ListTile(
                 title: Text('Logout'),
                 onTap: () {
                   FirebaseAuth.instance.signOut();
@@ -182,9 +192,25 @@ class _HomeState extends State<Home> {
                                             // TODO: change the check condition before production
                                             ? (meters < 1000.0 || true)
                                                 ? ListTile(
-                                                    title: Text(snapshot.data
-                                                            .documents[index]
-                                                        ['apartmentname']),
+                                                    title: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(snapshot.data
+                                                                .documents[index]
+                                                            ['apartmentname']),
+                                                        Text(
+                                                          '₹ ' +
+                                                              snapshot
+                                                                  .data
+                                                                  .documents[
+                                                                      index]
+                                                                      ['price']
+                                                                  .toString(),
+                                                        ),
+                                                      ],
+                                                    ),
                                                     subtitle: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
