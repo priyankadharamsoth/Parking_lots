@@ -42,11 +42,6 @@ jobs:
         cd auth 
         flutter analyze .
     
-    # Run widget tests for our flutter project.
-    - run: |
-        cd auth
-        flutter test
-    
     # Build apk.
     - run: |
         cd auth
