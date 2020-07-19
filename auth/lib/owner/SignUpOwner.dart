@@ -18,7 +18,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      
       appBar: AppBar(
         title: Text('Register',
             style: GoogleFonts.lobster(color: Colors.black, fontSize: 25.0)),
@@ -76,6 +76,7 @@ class _SignUpOwnerState extends State<SignUpOwnerPage> {
                           decoration: textInputDecoration.copyWith(
                               labelText: 'apartmentname'),
                         ),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           onSaved: (input) => _cost = int.parse(input),
                           keyboardType: TextInputType.number,

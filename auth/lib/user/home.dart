@@ -190,7 +190,7 @@ class _HomeState extends State<Home> {
                                       builder: (context, meters, widget) {
                                         return (meters != null)
                                             // TODO: change the check condition before production
-                                            ? (meters < 1000.0 || true)
+                                            ? (meters < 1000.0 )
                                                 ? ListTile(
                                                     title: Row(
                                                       mainAxisAlignment:
