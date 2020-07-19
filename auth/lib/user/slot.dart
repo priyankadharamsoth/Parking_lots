@@ -267,10 +267,24 @@ class _SlotScreenState extends State<SlotScreen> {
           'user': user.uid,
         };
 
-        widget.slotDoc.reference.collection('history').add(data);
+        await widget.slotDoc.reference.collection('history').add(data);
         setState(() {
           _isLoading = false;
         });
+
+        Map<String, dynamic> notificationData = {
+          'time': DateTime.parse(_bookingDate.toIso8601String())
+              .add(Duration(hours: startTime)),
+          'message': 'Your slot is booked successfully',
+          'title': 'Booked',
+        };
+
+        // add the same to notification
+        await Firestore.instance
+            .collection('Users')
+            .document(user.uid)
+            .collection('notifications')
+            .add(notificationData);
 
         Navigator.of(context).pop();
       },
